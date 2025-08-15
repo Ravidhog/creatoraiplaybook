@@ -5,33 +5,62 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Creator AI Playbook</title>
   <link rel="stylesheet" href="styles.css" />
+  <meta name="color-scheme" content="light dark">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header>
-    <h1>Creator AI Playbook</h1>
-    <p class="tagline">Daily AI workflows for creators</p>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-    </nav>
-  </header>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero__bg"></div>
+    <header class="wrap hero__header">
+      <div class="brand">
+        <div class="brand__logo">✨</div>
+        <h1 class="brand__title">Creator AI Playbook</h1>
+      </div>
+      <nav class="nav">
+        <a class="nav__link" href="index.html">Home</a>
+        <a class="nav__link" href="about.html">About</a>
+      </nav>
+    </header>
 
-  <main>
-    <div id="ad-slot"></div>
-    <h2>Latest posts</h2>
-    <ul id="post-list">
-    </ul>
+    <div class="wrap hero__content">
+      <h2 class="hero__title">Daily AI workflows for creators</h2>
+      <p class="hero__subtitle">Fresh, curated rundowns + practical how‑tos to grow faster with AI.</p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="#latest">See today’s roundup</a>
+        <a class="btn btn--ghost" href="about.html">What is this?</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main -->
+  <main class="wrap main">
+    <section id="latest" class="panel">
+      <div class="panel__header">
+        <h3 class="panel__title">Latest posts</h3>
+      </div>
+      <ul id="post-list" class="cards">
+        <!-- Filled by scripts/site.js -->
+      </ul>
+      <div id="ad-slot" class="ad-slot"></div>
+    </section>
+
+    <aside class="panel">
+      <div class="panel__header">
+        <h3 class="panel__title">Tools we like</h3>
+      </div>
+      <ul id="affiliates" class="links"></ul>
+    </aside>
   </main>
 
-  <aside>
-    <h3>Tools we like</h3>
-    <ul id="affiliates"></ul>
-  </aside>
-
-  <footer>
-    <p>&copy; 2025 Creator AI Playbook</p>
+  <footer class="wrap footer">
+    <p>© <span id="year"></span> Creator AI Playbook</p>
   </footer>
 
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
   <script src="scripts/site.js"></script>
 </body>
 </html>
