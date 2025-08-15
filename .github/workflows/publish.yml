@@ -2,11 +2,11 @@ name: Daily publisher
 
 on:
   schedule:
-    - cron: "0 7 * * *" # Runs every day at 07:00 UTC
-  workflow_dispatch: # Allows manual run from the Actions tab
+    - cron: "0 7 * * *"   # 07:00 UTC daily
+  workflow_dispatch:       # allows manual run
 
 permissions:
-  contents: write
+  contents: write          # let the job push commits
 
 jobs:
   build:
@@ -30,6 +30,11 @@ jobs:
 
       - name: Generate posts from RSS
         run: |
+          python -V
+          pip show feedparser || true
+          ls -la
+          ls -la scripts || true
+          ls -la posts || true
           python scripts/rss_to_posts.py
 
       - name: Commit and push changes
