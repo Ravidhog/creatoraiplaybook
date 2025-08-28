@@ -1,48 +1,32 @@
-name: Daily publisher
+name: Publish AI Posts
 
 on:
   schedule:
-    - cron: "0 7 * * *"   # 07:00 UTC daily
-  workflow_dispatch:       # allows manual run
+    - cron: "0 12 * * *"  # once daily at noon UTC
+  workflow_dispatch:
 
 permissions:
-  contents: write          # let the job push commits
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          persist-credentials: true
-          fetch-depth: 0
-
+      - uses: actions/checkout@v3
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
-
+          python-version: 3.x
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install feedparser markdownify jinja2
-
-      - name: Generate posts from RSS
-        run: |
-          python -V
-          pip show feedparser || true
-          ls -la
-          ls -la scripts || true
-          ls -la posts || true
-          python scripts/rss_to_posts.py
-
-      - name: Commit and push changes
+        run: pip install openai
+      - name: Run AI to Posts
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: python scripts/ai_to_posts.py
+      - name: Commit and Push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add posts/* 2>/dev/null || true
-          git add posts/manifest.json 2>/dev/null || true
-          git commit -m "Daily post update" || echo "No changes to commit"
-          git pull --rebase origin main || true
+          git add .
+          git commit -m "Automated AI-generated post" || echo "No changes"
           git push
