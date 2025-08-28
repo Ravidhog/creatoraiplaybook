@@ -2,8 +2,8 @@ name: Publish AI Posts
 
 on:
   schedule:
-    - cron: "0 12 * * *"  # once daily at noon UTC
-  workflow_dispatch:
+    - cron: "0 12 * * *"   # runs daily at 12:00 UTC (7 AM Dallas time)
+  workflow_dispatch:        # allows manual run from GitHub Actions tab
 
 permissions:
   contents: write
@@ -12,17 +12,22 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.x
+          python-version: "3.x"
+
       - name: Install dependencies
         run: pip install openai
+
       - name: Run AI to Posts
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: python scripts/ai_to_posts.py
+
       - name: Commit and Push
         run: |
           git config user.name "github-actions[bot]"
